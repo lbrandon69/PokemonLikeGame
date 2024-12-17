@@ -169,7 +169,7 @@ VALUES
 
 1. Clonez le repository GitHub :
    ```bash
-   git clone <URL_DU_REPO>
+   git clone (https://github.com/lbrandon69/PokemonLikeGame.git)
    ```
 
 2. Assurez-vous que SQL Server Express est installé et démarré.
