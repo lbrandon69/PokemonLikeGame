@@ -1,0 +1,59 @@
+﻿<Window x:Class="PokemonLikeProject.MVVM.View.MonsterManagementView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:PokemonLikeProject.MVVM.View"
+        mc:Ignorable="d"
+        Title="Gestion des Monstres" Height="450" Width="800">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Filtres pour les monstres -->
+        <StackPanel Grid.Column="0" Margin="10">
+            <Grid Margin="0,0,0,10">
+                <TextBox x:Name="FilterNameTextBox" TextChanged="FilterNameTextBox_TextChanged"/>
+                <TextBlock Text="Filtrer par nom" IsHitTestVisible="False" Foreground="Gray" VerticalAlignment="Center" Margin="5,0,0,0" Visibility="{Binding Text.Length, ElementName=FilterNameTextBox, Converter={StaticResource EmptyStringToVisibilityConverter}}"/>
+            </Grid>
+            <Grid Margin="0,0,0,10">
+                <TextBox x:Name="FilterHPTextBox" TextChanged="FilterHPTextBox_TextChanged"/>
+                <TextBlock Text="Filtrer par HP" IsHitTestVisible="False" Foreground="Gray" VerticalAlignment="Center" Margin="5,0,0,0" Visibility="{Binding Text.Length, ElementName=FilterHPTextBox, Converter={StaticResource EmptyStringToVisibilityConverter}}"/>
+            </Grid>
+        </StackPanel>
+
+        <!-- Liste des monstres -->
+        <ListBox x:Name="MonsterListBox" Grid.Column="0" Margin="10" ItemsSource="{Binding FilteredMonsters}" SelectionChanged="MonsterListBox_SelectionChanged">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="5"/>
+                        <Button Content="Choisir" Command="{Binding DataContext.ChooseMonsterCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" CommandParameter="{Binding}" Margin="5"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <!-- Détails du monstre -->
+        <StackPanel Grid.Column="1" Margin="10">
+            <TextBlock Text="Nom:" FontWeight="Bold"/>
+            <TextBlock x:Name="MonsterNameTextBlock" Text="{Binding MonsterName}" Margin="0,0,0,10"/>
+
+            <TextBlock Text="HP:" FontWeight="Bold"/>
+            <TextBlock x:Name="MonsterHPTextBlock" Text="{Binding MonsterHP}" Margin="0,0,0,10"/>
+
+            <TextBlock Text="Spells:" FontWeight="Bold"/>
+            <ListBox x:Name="MonsterSpellsListBox" ItemsSource="{Binding MonsterSpells}" DisplayMemberPath="Name" Margin="0,0,0,10"/>
+
+            <!-- Affichage de l'image du monstre -->
+            <Image x:Name="MonsterImage" Source="{Binding MonsterImageUrl}" Height="200" Margin="0,10,0,0"/>
+
+            <!-- Bouton pour naviguer vers la page des sorts -->
+            <Button Content="Liste des Sorts" Click="NavigateToSpellsView" Margin="0,10,0,0"/>
+        </StackPanel>
+    </Grid>
+</Window>
+
